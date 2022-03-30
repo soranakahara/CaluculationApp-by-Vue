@@ -23,8 +23,10 @@ const app = new Vue({
     },
     methods: {
         intButtonPushed: function(value){
-            this.tmpInt += String(value);
+            // console.log(typeof(value));
             this.expressionList.push(value);
+            this.tmpInt += String(value);
+            console.log(typeof(value))
         },
         operatorButtonPushed: function(value){
             // 演算子は連続では入力できない
@@ -35,21 +37,22 @@ const app = new Vue({
             // tmpIntをint型に変換, tmpInt初期化
             let op2 = Number(this.tmpInt);
             this.tmpInt = "";
-            this.tmpOperator = value;
             this.tmpAns = fourArithmetic(this.tmpOp1, op2, this.tmpOperator);
             console.log("tmp Answer is: " + this.tmpAns);
 
             // 次の計算のためにtmpOp1（左辺）に暫定的な答えを代入しておく
             this.tmpOp1 = this.tmpAns;
+            this.tmpOperator = value;
 
             this.expressionList.push(" " + value + " ");
         },
         caluculate: function(){
             // 最後が数字ならもう一度計算
-            if(typeof(this.expressionList[this.expressionList.length-1]) === "int"){
+            if(this.tmpInt.length > 0){
+                console.log("末尾のデータ型:" + typeof(this.expressionList[this.expressionList.length - 1]));
+                console.log("末尾は数字");
                 // tmpIntをint型に変換, tmpInt初期化
                 let op2 = Number(this.tmpInt);
-                this.tmpOperator = value;
                 this.tmpAns = fourArithmetic(this.tmpOp1, op2, this.tmpOperator);
                 console.log("tmp Answer is: " + this.tmpAns);
             }
